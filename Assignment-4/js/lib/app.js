@@ -4,3 +4,9 @@ $('#btnTest').click(function(){
     let decRate = $('#txtPayRate').val();
     console.log(decHours * decRate);
 });
+$('#cboEmploeeType').change(function() {
+    if($('#cboEmploeeType').val() == 'FULL'){
+        //$('divHours').clideUp();
+        //$('divHours').css('display')'none'();
+    }
+})
