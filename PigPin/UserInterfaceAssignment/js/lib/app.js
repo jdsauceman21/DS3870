@@ -35,7 +35,7 @@ function buildEmployeeCard(){
     });
 }
 
-$(document).on('click', '.item', function(event) {
+$(document).on('click', 'btnCalculatePay', function(event) {
     const decTaxRate = .0925;
     let decHours = $('#txtHours').val();
     let decRate = $('#txtPayRate').val();
