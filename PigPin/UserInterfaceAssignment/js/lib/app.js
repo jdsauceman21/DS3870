@@ -35,7 +35,7 @@ function buildEmployeeCard(){
     });
 }
 
-$(document).on('click', 'btnCalculatePay', function() {
+$(document).on('click','.btnCalculatePay', function() {
     let decRate = $(this).closest('.card').find ('.txtPayRate').text().split(': ')[1];
     let decHours = $(this).closest('.card').find ('.txtHours').val();
     $(this).closest('.card').find('txtTotalPay').val((decHours*decRate));
