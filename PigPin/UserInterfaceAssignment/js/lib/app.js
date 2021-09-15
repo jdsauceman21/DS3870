@@ -20,34 +20,24 @@ function buildEmployeeCard(){
             strHTML += '<p>Address:  123 South Willow ave, Cookeville, TN 38506</p>';
             strHTML += '<p>Assignment:  Johnson Hall</p>';
             strHTML += '<div class="form-group">';
-            strHTML += '<label for="txtPayRate">Pay Rate</label>';
-            strHTML += '<input id="txtPayRate">';
+            strHTML += '<label >Pay Rate</label>';
+            strHTML += '<input class ="txtPayRate">';
             strHTML += '</div>';
+            strHTML += '<div class="form-group">';
+            strHTML += '<label >Total Pay</label>';
+            strHTML += '<input class ="txtTotalPay">';
             strHTML += '</div>';
-            $('body').append(strHTML);
+            strHTML += '<button class = "btn btn-primary btnCalculatePay">Calculate</button>';
+            strHTML += '</div>';
+            $('#divEmployees').append(strHTML);
         }
         
     });
 }
 
-$('#btnTest').click(function() {
+$(document).on('click', '.item', function(event) {
     const decTaxRate = .0925;
     let decHours = $('#txtHours').val();
     let decRate = $('#txtPayRate').val();
     console.log(decHours * decRate);
 });
-$('#cboEmployeeType').change(function() {
-    if($('#cboEmployeeType').val() == 'FULL'){
-        $('#divHours').addClass('d-none');
-    }else {
-        $('#divHours').removeClass('d-none').slideDown();
-    }
-})
-
-function onSignIn(googleUser) {
-    var profile = googleUser.getBasicProfile();
-    console.log('ID: ' + profile.getId()); 
-    console.log('Name: ' + profile.getName());
-    console.log('Image URL: ' + profile.getImageUrl());
-    console.log('Email: ' + profile.getEmail()); 
-  }
