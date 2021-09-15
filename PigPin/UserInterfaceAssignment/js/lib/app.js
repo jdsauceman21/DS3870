@@ -16,12 +16,12 @@ function buildEmployeeCard(){
             strHTML += '<h3 class="text-center"><a href="mailto:' + person.Email + '">' + person.FirstName + ' ' + person.LastName + '</a></h3>';
             strHTML += '<h4 class="text-center">' + person.Postion +'</h4>';
             strHTML += '<h4 class="mt-3">Profile Details</h4>';
-            strHTML += '<p>Hourly Rate: ' + person.HourlyRate + '</p>';
+            strHTML += '<p class = "txtPayRate">Hourly Rate: ' + person.HourlyRate + '</p>';
             strHTML += '<p>Address:  123 South Willow ave, Cookeville, TN 38506</p>';
             strHTML += '<p>Assignment:  Johnson Hall</p>';
             strHTML += '<div class="form-group">';
-            strHTML += '<label >Pay Rate</label>';
-            strHTML += '<input class ="txtPayRate">';
+            strHTML += '<label >Hours Worked</label>';
+            strHTML += '<input class ="txtHours">';
             strHTML += '</div>';
             strHTML += '<div class="form-group">';
             strHTML += '<label >Total Pay</label>';
@@ -35,9 +35,8 @@ function buildEmployeeCard(){
     });
 }
 
-$(document).on('click', 'btnCalculatePay', function(event) {
-    const decTaxRate = .0925;
-    let decHours = $('#txtHours').val();
-    let decRate = $('#txtPayRate').val();
-    console.log(decHours * decRate);
+$(document).on('click', 'btnCalculatePay', function() {
+    let decRate = $(this).closest('.card').find ('.txtPayRate').text().split(': ')[1];
+    let decHours = $(this).closest('.card').find ('.txtHours').val();
+    $(this).closest('.card').find('txtTotalPay').val((decHours*decRate));
 });
