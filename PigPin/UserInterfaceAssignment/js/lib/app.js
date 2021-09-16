@@ -12,7 +12,7 @@ $.getJSON("https://www.swollenhippo.com/getEmployeesByAPIKey.php?APIKey=Mickey20
 function buildEmployeeCard(){
     $.each(arrEmployees,function(i,person){
         if(person.FirstName != ''){
-            let strHTML = '<div class="card col-3 mt-5">';
+            let strHTML = '<div class="card col-3 ml-3 mt-5">';
             strHTML += '<h3 class="text-center"><a href="mailto:' + person.Email + '">' + person.FirstName + ' ' + person.LastName + '</a></h3>';
             strHTML += '<h4 class="text-center">' + person.Postion +'</h4>';
             strHTML += '<h4 class="mt-4">Profile Details</h4>';
@@ -20,12 +20,12 @@ function buildEmployeeCard(){
             strHTML += '<p>Address:  123 South Willow ave, Cookeville, TN 38506</p>';
             strHTML += '<p>Assignment:  Johnson Hall</p>';
             strHTML += '<div class="form-group">';
-            strHTML += '<label >Hours Worked</label>';
-            strHTML += '<input class ="txtHours">';
+            strHTML += '<label class = "col">Hours Worked</label>';
+            strHTML += '<input class ="txtHours col">';
             strHTML += '</div>';
             strHTML += '<div class="form-group">';
-            strHTML += '<label >Total Pay</label>';
-            strHTML += '<input class ="txtTotalPay">';
+            strHTML += '<label class = "col">Total Pay</label>';
+            strHTML += '<input class ="txtTotalPay col">';
             strHTML += '</div>';
             strHTML += '<button class = "btn btn-primary btnCalculatePay">Calculate</button>';
             strHTML += '</div>';
