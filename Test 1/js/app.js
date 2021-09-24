@@ -1,5 +1,5 @@
 var arrArcher;
-$.getJSON("https://www.swollenhippo.com/getProfileDetailsByAPIKey?APIKey=DuffManSays,Phrasing!", function(result){
+$.getJSON("https://www.swollenhippo.com/getProfileDetailsByAPIKey.php?APIKey=DuffManSays,Phrasing!&Codename=Duchess", function(result){
     arrArcher = result;
     $.each(result,function(i,Archer){
         $('#divProfileContainer').append(buildProfileCard(Archer));
