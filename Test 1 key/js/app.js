@@ -10,7 +10,6 @@ $.getJSON("https://www.swollenhippo.com/getPayStubsByAPIKey.php?APIKey=DuffManSa
 var arrEmployeeProfile;
 $.getJSON("https://www.swollenhippo.com/getProfileDetailsByAPIKey.php?APIKey=DuffManSays,Phrasing!&Codename=Duchess", function(result){
     arrEmployeeProfile = result;
-    console.log();
     $.each(result,function(i,profile){
         fillEmployeeProfile(profile);
     })
