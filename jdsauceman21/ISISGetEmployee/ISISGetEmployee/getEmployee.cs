@@ -35,7 +35,7 @@ namespace ISISGetEmployee
             public string Status { get; set; }
             public double WeeklyPay { get; set; }
             public Agency Agency { get; set; }
-            public Employee(string strFirstName, string strLastName, string strCodeName, string strPosition, string strStatus, double dblPayRate, double dblHours, string strAgency, Agency agSpyAgency)
+            public Employee(string strFirstName, string strLastName, string strCodeName, string strPosition, string strStatus, double dblPayRate, double dblHours, Agency agSpyAgency)
             {
                 FirstName = strFirstName;
                 LastName = strLastName;
@@ -67,21 +67,28 @@ namespace ISISGetEmployee
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
 
-            Employee[] arrEmployees = new Employee[] { Archer, Lana, Pam, Barry };
+            List<Employee> arrEmployees = new List<Employee>();
+            arrEmployees.Add(Archer);
+            arrEmployees.Add(Lana);
+            arrEmployees.Add(Pam);
+            arrEmployees.Add(Barry);
+
 
             List<Employee> lstISIS = new List<Employee>();
             List<Employee> lstCIA = new List<Employee>();
             foreach (Employee empCurrent in arrEmployees)
             {
-                if (empCurrent.Agency.Name == "CIA")
+                if (empCurrent.Agency == CIA)
                 {
                     lstCIA.Add(empCurrent);
-                } else
+                }
+                else
                 {
                     lstISIS.Add(empCurrent);
                 }
             }
-                List<Employee> lstFoundEmployees = new List<Employee>();
+
+            List<Employee> lstFoundEmployees = new List<Employee>();
             foreach (Employee empCurrent in arrEmployees)
             {
                 if (strCodeName == empCurrent.CodeName)
