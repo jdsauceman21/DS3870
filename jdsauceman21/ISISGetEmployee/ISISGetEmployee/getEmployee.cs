@@ -1,4 +1,6 @@
 using System;
+using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +10,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using System.Data.SqlClient;
 
 namespace ISISGetEmployee
 {
@@ -53,58 +54,74 @@ namespace ISISGetEmployee
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            string strCodeName = req.Query["CodeName"];
-            string strAgency = req.Query["Agency"];
-            log.LogInformation("HTTP trigger on getEmployee processed a request for: " + strCodeName);
 
-            Agency ISIS = new Agency("ISIS", "10 E Broad St", "(931) 526-2125");
-            Agency CIA = new Agency("CIA", "10 E Broad St", "(931) 526-2125");
-
-            Employee Archer = new Employee("Sterling", "Archer", "Duchess", "Field Agent", "Active", 23.75, 18.50, ISIS);
-            Employee Lana = new Employee("Lana", "Kane", "Truckasaurus", "Field Agent", "Active", 21.50, 23.50, ISIS);
-            Employee Pam = new Employee("Pam", "Poovey", "Snowball", "Human Resource Director", "Active", 49.00, 12, ISIS);
-            Employee Barry = new Employee("Barry", "Cyborg", "Duchess", "Field Agent", "Active", 23.75, 18.50, CIA);
-
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
-
-            List<Employee> arrEmployees = new List<Employee>();
-            arrEmployees.Add(Archer);
-            arrEmployees.Add(Lana);
-            arrEmployees.Add(Pam);
-            arrEmployees.Add(Barry);
-
-
-            List<Employee> lstISIS = new List<Employee>();
-            List<Employee> lstCIA = new List<Employee>();
-            foreach (Employee empCurrent in arrEmployees)
+            string strQuery = "SELECT * FROM dbo.tblAgents";
+            DataSet dsSpyAgencies = new DataSet();
+            string strConnection = "Server=tcp:ttu-bburchfield-ds870.database.windows.net,1433;Initial Catalog=dbSpies;Persist Security Info=False;User ID=bburchfield;Password=Mickey2021!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            try
             {
-                if (empCurrent.Agency == CIA)
+                using (SqlConnection conSpyAgencies = new SqlConnection(strConnection))
+                using (SqlCommand comSpyAgencies = new SqlCommand(strQuery, conSpyAgencies))
                 {
-                    lstCIA.Add(empCurrent);
-                }
-                else
-                {
-                    lstISIS.Add(empCurrent);
+                    SqlDataAdapter daSpyAgencies = new SqlDataAdapter(comSpyAgencies);
+                    daSpyAgencies.Fill(dsSpyAgencies);
+                    return new OkObjectResult(JsonConvert.SerializeObject(dsSpyAgencies.Tables[0]));
                 }
             }
+            catch (Exception ex)
+            {
+                return new OkObjectResult(ex.Message.ToString());
+            }
+            //string strCodeName = req.Query["CodeName"];
+            //string strAgency = req.Query["Agency"];
+            //log.LogInformation("HTTP trigger on getEmployee processed a request for: " + strCodeName);
 
-            List<Employee> lstFoundEmployees = new List<Employee>();
-            foreach (Employee empCurrent in arrEmployees)
-            {
-                if (strCodeName == empCurrent.CodeName)
-                {
-                    lstFoundEmployees.Add(empCurrent);
-                }
-            }
-            if (lstFoundEmployees.Count > 0)
-            {
-                return new OkObjectResult(lstFoundEmployees);
-            }
-            else
-            {
-                return new OkObjectResult("Employee Not Found");
-            }
+            //Agency ISIS = new Agency("ISIS", "10 E Broad St", "(931) 526-2125");
+            //Agency CIA = new Agency("CIA", "10 E Broad St", "(931) 526-2125");
+
+            //Employee Archer = new Employee("Sterling", "Archer", "Duchess", "Field Agent", "Active",23.75,18.50, ISIS);
+            //Employee Lana = new Employee("Lana", "Kane", "Truckasaurus", "Field Agent", "Active",21.50,23.50, ISIS);
+            //Employee Pam = new Employee("Pam", "Poovey", "Snowball", "Human Resource Director", "Active",49.00,12, ISIS);
+            //Employee Barry = new Employee("Barry", "Cyborg", "Duchess", "Field Agent", "Active", 23.75, 18.50, CIA);
+
+            //string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            //dynamic data = JsonConvert.DeserializeObject(requestBody);
+
+            //List<Employee> arrEmployees = new List<Employee>();
+            //arrEmployees.Add(Archer);
+            //arrEmployees.Add(Lana);
+            //arrEmployees.Add(Pam);
+            //arrEmployees.Add(Barry);
+
+
+            //List<Employee> lstISIS = new List<Employee>();
+            //List<Employee> lstCIA = new List<Employee>();
+            //foreach(Employee empCurrent in arrEmployees)
+            //{
+            //    if(empCurrent.Agency == CIA)
+            //    {
+            //        lstCIA.Add(empCurrent);
+            //    } else
+            //    {
+            //        lstISIS.Add(empCurrent);
+            //    }
+            //}
+
+            //List<Employee> lstFoundEmployees = new List<Employee>();
+            //foreach(Employee empCurrent in arrEmployees)
+            //{
+            //    if(strCodeName == empCurrent.CodeName)
+            //    {
+            //        lstFoundEmployees.Add(empCurrent);
+            //    }
+            //}
+            //if(lstFoundEmployees.Count > 0)
+            //{
+            //    return new OkObjectResult(lstFoundEmployees);
+            //} else
+            //{
+            //    return new OkObjectResult("Employee Not Found");
+            //}
 
 
         }
