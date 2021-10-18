@@ -55,14 +55,19 @@ namespace ISISGetEmployee
             ILogger log)
         {
 
-            string strQuery = "SELECT * FROM dbo.tblAgents";
-            DataSet dsSpyAgencies = new DataSet();
+            string strCodeName = req.Query["CodeName"];
+            string strQuery = "Select * From dbo.tblEmployees WHERE CodeName = @parCodeName";
+            DataSet dsSpyAgencies = new DataSet ();
             string strConnection = "Server=tcp:ttu-bburchfield-ds870.database.windows.net,1433;Initial Catalog=dbSpies;Persist Security Info=False;User ID=bburchfield;Password=Mickey2021!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             try
             {
                 using (SqlConnection conSpyAgencies = new SqlConnection(strConnection))
                 using (SqlCommand comSpyAgencies = new SqlCommand(strQuery, conSpyAgencies))
                 {
+                    SqlParameter parCodeName = new SqlParameter("parCodeName", SqlDbType.b);
+                    parCodeName.Value = strCodeName;
+                    comSpyAgencies.Parameteers.Add(parCodeName);
+
                     SqlDataAdapter daSpyAgencies = new SqlDataAdapter(comSpyAgencies);
                     daSpyAgencies.Fill(dsSpyAgencies);
                     return new OkObjectResult(JsonConvert.SerializeObject(dsSpyAgencies.Tables[0]));
