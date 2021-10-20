@@ -1,22 +1,30 @@
-string strQuery = "SELECT * FROM dbo.tblEmployees WHERE CodeName = @parCodeName";
-            DataSet dsSpyAgencies = new DataSet ();
-            string strConnection = "Server=tcp:ttu-bburchfield-ds870.database.windows.net,1433;Initial Catalog=ds3870;Persist Security Info=False;User ID=bburchfield;Password=Mickey2021!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-            try
-            {​​​​​​
-                using (SqlConnection conSpyAgencies = new SqlConnection(strConnection))
-                using (SqlCommand comSpyAgencies = new SqlCommand(strQuery, conSpyAgencies))
-                {​​​​​​
-                    SqlParameter parCodeName = new SqlParameter("parCodeName", SqlDbType.VarChar);
-                    parCodeName.Value = strCodeName;
-                    comSpyAgencies.Parameters.Add(parCodeName);
+string strQuery = "INSERT INTO tblEmployees Valuse('@FirstName','@LastName','@CodeName','@Street',@City','@State','@ZIP','@Conutry','NULL')";
+string strConnection = "Server=tcp:ttu-bburchfield-ds870.database.windows.net,1433;Initial Catalog=ds3870;Persist Security Info=False;User ID=bburchfield;Password=Mickey2021!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+try
+{​​​​​​
+    using (SqlConnection conSpyAgencies = new SqlConnection(strConnection))
+    using (SqlCommand comSpyAgencies = new SqlCommand(strQuery, conSpyAgencies))
+    {
+        SqlParameter parCodeName = new SqlParameter("FirstName", SqlDbType.VarChar);
+        parCodeName.Value = "Sterling";
+        comSpyAgencies.Parameters.Add(parCodeName);​​​​​​
 
+        SqlParameter parCodeName = new SqlParameter("LastName", SqlDbType.VarChar);
+        parCodeName.Value = "Archer";
+        comSpyAgencies.Parameters.Add(parCodeName);​​​​​​
 
-                    SqlDataAdapter daSpyAgencies = new SqlDataAdapter(comSpyAgencies);
-                    daSpyAgencies.Fill(dsSpyAgencies);
-                    return new OkObjectResult(JsonConvert.SerializeObject(dsSpyAgencies.Tables[0]));
-                }​​​​​​
-            }​​​​​​
-            catch (Exception ex)
-            {​​​​​​
-                return new OkObjectResult(ex.Message.ToString());
-            }
+        SqlParameter parCodeName = new SqlParameter("CodeName", SqlDbType.VarChar);
+        parCodeName.Value = "Duchess";
+        comSpyAgencies.Parameters.Add(parCodeName);​​​​​​
+
+        comSpyAgencies.Connection = conSpyAgencies;
+        comSpyAgencies.CommandText = strQuery;
+        comSpyAgencies.Open()
+        comSpyAgencies.ExcuteNonQuery();
+        conSpyAgencies.Close();
+    }​​​​​​
+}​​​​​​
+catch (Exception ex)
+{​​​​​​
+    return new OkObjectResult(ex.Message.ToString());
+}
