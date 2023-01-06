@@ -1,7 +1,11 @@
 is_global = true
 build_property.RootNamespace = getVehicles
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 build_property.ProjectDir = c:\Users\User\Documents\GitHub\DS3870\getVehicles\getVehicles\
+=======
+build_property.ProjectDir = C:\Users\User\Documents\GitHub\DS3870\getVehicles\getVehicles\
+>>>>>>> Stashed changes
 =======
 build_property.ProjectDir = C:\Users\User\Documents\GitHub\DS3870\getVehicles\getVehicles\
 >>>>>>> Stashed changes
